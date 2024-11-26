@@ -2,12 +2,13 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import Todos from "../../stores/Todos";
+import Todos from "@Stores/Todos";
+import styles from "./styles.module.scss";
 
 const Form = () => {
 	const [text, setText] = useState('');
 
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(e.target.value);
 	};
 	
@@ -38,10 +39,12 @@ const Form = () => {
 		setText(text);
 	}, [Todos.id]);
 
-	return(<form onSubmit={handleSubmit}>
-		<input value={text} onInput={handleInput}/>
-		<button>save</button>
-		{Todos.id && <button type='button' onClick={handleDelete}>delete</button>}
+	return(<form onSubmit={handleSubmit} className={styles['form']}>
+		<textarea value={text} onInput={handleInput}/>
+		<div className={styles['controll']}>
+			<button>save</button>
+			{Todos.id && <button type='button' onClick={handleDelete}>delete</button>}
+		</div>
 	</form>);
 };
 

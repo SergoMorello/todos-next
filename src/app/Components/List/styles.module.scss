@@ -1,0 +1,47 @@
+.list-messages {
+	display: block;
+	text-align: left;
+	margin-left: 0;
+	padding-left: 0;
+
+	li {
+		list-style-type: none;
+		background-color: antiquewhite;
+		border-radius: 5px;
+		padding: 10px 5px 10px 5px;
+		margin: 4px 0 4px 0;
+		cursor: pointer;
+		
+		.date {
+			text-align: right;
+			font-size: 13px;
+			color: #CCCCCC;
+		}
+
+		.message {
+			font-size: 16px;
+		}
+	}
+}
+
+.paginate {
+	display: block;
+	text-align: left;
+	margin-left: 0;
+	padding-left: 0;
+
+	li {
+		display: inline-block;
+		list-style-type: none;
+		background-color: #CCCCCC;
+		padding: 4px;
+		border-radius: 5px;
+		color: #FFFFFF;
+
+		&.active {
+			background-color: unset;
+			border: 1px solid #CCCCCC;
+			color: #000000;
+		}
+	}
+}

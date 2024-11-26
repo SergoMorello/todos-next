@@ -1,5 +1,6 @@
+import API from "@API";
 import { PrismaClient } from "@prisma/client";
-import { makeObservable, observable, action, computed } from "mobx";
+import { makeObservable, observable, action, computed, configure } from "mobx";
 import { useMemo } from "react";
 
 type ObjType = TypedPropertyDescriptor<any>;
@@ -9,11 +10,17 @@ type MethodType = [
 	ObjType
 ];
 
-abstract class Store<T = any> {
+configure({
+    enforceActions: "never",
+})
+
+abstract class Store<T extends Record<string, unknown> = Record<string, unknown>> {
 	protected _db?: PrismaClient;
-	public data?: T;
+	protected api?: API<T>;
+	public data?: T[];
 
 	constructor() {
+		this.mountAPI();
 		this.mountPrisma();
 	}
 
@@ -40,6 +47,11 @@ abstract class Store<T = any> {
 		makeObservable(context, annotations);
 	}
 
+	private mountAPI() {
+		if (this.isServer) return;
+		this.api = new API();
+	}
+
 	protected mountPrisma() {
 		if (this._db || !this.isServer) return;
 		this._db = new PrismaClient();
@@ -49,7 +61,7 @@ abstract class Store<T = any> {
 		return typeof window === 'undefined';
 	}
 
-	public use(data: T) {
+	public use(data: T[]) {
 		return useMemo(() => {
 			this.data = data
 			return this;

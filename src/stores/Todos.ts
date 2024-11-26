@@ -7,7 +7,7 @@ export type Todo = {
 	text: string;
 };
 
-const Todos = new (class Todos extends Store<Todo[]> {
+const Todos = new (class Todos extends Store<Todo> {
 	public id?: string;
 
 	constructor() {
@@ -23,24 +23,25 @@ const Todos = new (class Todos extends Store<Todo[]> {
 		return this.data?.find((dt) => id === dt.id);
 	}
 
-	public create(data: Todo) {
-		const id = uuidv4();
-		const newTodo = {
-			...data,
-			id
-		}
-		this.data?.push(newTodo);
-		return newTodo;
+	public async create(data: Todo) {
+		const todo = await this.api?.post('todos', data);
+		if (todo) this.data?.push(todo);
+		return todo;
 	}
 
-	public update(id: string, data: Todo) {
-		this.data = this.data?.map((dt) => {
-			return id === dt.id ? {...dt, ...data} : dt;
-		});
+	public async update(id: string, data: Todo) {
+		if (!this.data) return;
+		for (const key in this.data) {
+			if (this.data[key].id === id) {
+				const todo = await this.api?.put('todos/' + id, data);
+				if (todo) this.data[key] = todo;
+			}
+		}
 		this.editMode();
 	}
 
-	public delete(id: string) {
+	public async delete(id: string) {
+		await this.api?.delete('todos/' + id);
 		this.data = this.data?.filter((dt) => id !== dt.id);
 		this.editMode();
 	}
