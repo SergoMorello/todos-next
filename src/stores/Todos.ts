@@ -5,6 +5,7 @@ import Store from "./Store";
 export type Todo = {
 	id?: string;
 	text: string;
+	createdAt?: Date;
 };
 
 const Todos = new (class Todos extends Store<Todo> {

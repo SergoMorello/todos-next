@@ -12,10 +12,12 @@ const Home = async () => {
 		}
 	}) ?? [];
 	return (
-		<div className={styles['box']}>
-			<List data={data}/>
-			<Form/>
-		</div>
+		<main className="container">
+			<section className={styles['box']}>
+				<List data={data}/>
+				<Form/>
+			</section>
+		</main>
 	);
 }
 

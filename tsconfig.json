@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@Components/*": ["./src/app/Components/*"],
+	  "@UI/*": ["./src/app/UI/*"],
 	  "@Stores/*": ["./src/stores/*"],
 	  "@API/*": ["./src/API/*"],
 	  "@API": ["./src/API"]

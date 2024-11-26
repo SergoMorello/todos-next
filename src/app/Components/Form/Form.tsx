@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Todos from "@Stores/Todos";
 import styles from "./styles.module.scss";
+import Button from "@UI/Button";
 
 const Form = () => {
 	const [text, setText] = useState('');
@@ -42,8 +43,8 @@ const Form = () => {
 	return(<form onSubmit={handleSubmit} className={styles['form']}>
 		<textarea value={text} onInput={handleInput}/>
 		<div className={styles['controll']}>
-			<button>save</button>
-			{Todos.id && <button type='button' onClick={handleDelete}>delete</button>}
+			<Button>save</Button>
+			{Todos.id && <Button type='button' onClick={handleDelete}>delete</Button>}
 		</div>
 	</form>);
 };
