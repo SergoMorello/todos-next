@@ -1,6 +1,12 @@
 "use client"
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+	type ChangeEvent,
+	type KeyboardEvent,
+	type FormEvent,
+	useEffect,
+	useState
+} from "react";
 import { observer } from "mobx-react-lite";
 import Todos from "@Stores/Todos";
 import styles from "./styles.module.scss";
@@ -12,9 +18,8 @@ const Form = () => {
 	const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setText(e.target.value);
 	};
-	
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
+
+	const sendTodo = () => {
 		if (text === '') return;
 		if (Todos.id) {
 			Todos.update(Todos.id, {
@@ -27,11 +32,28 @@ const Form = () => {
 		}
 		
 		setText('');
+	}
+	
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		sendTodo();
+	};
+
+	const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if(e.key === "Enter" && !e.shiftKey) {
+			(e.target as HTMLTextAreaElement).blur();
+			sendTodo();
+		}
 	};
 
 	const handleDelete = () => {
 		if (!Todos.id) return;
 		Todos.delete(Todos.id);
+		setText('');
+	};
+
+	const handleReset = () => {
+		Todos.editMode();
 		setText('');
 	};
 
@@ -41,7 +63,11 @@ const Form = () => {
 	}, [Todos.id]);
 
 	return(<form onSubmit={handleSubmit} className={styles['form']}>
-		<textarea value={text} onInput={handleInput}/>
+		{Todos.id && <div className={styles['head']}>
+			<span className={styles['toast-name']}>id: {Todos.id}</span>
+			<span onClick={handleReset} className={styles['reset']}/>
+		</div>}
+		<textarea value={text} onInput={handleInput} onKeyDown={handleEnter}/>
 		<div className={styles['controll']}>
 			<Button>save</Button>
 			{Todos.id && <Button type='button' onClick={handleDelete}>delete</Button>}

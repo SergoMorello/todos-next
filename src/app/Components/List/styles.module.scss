@@ -1,4 +1,5 @@
 .list-messages {
+	flex: 1;
 	display: block;
 	text-align: left;
 	margin-left: 0;
@@ -33,6 +34,14 @@
 			color: var(--color-inverse);
 		}
 
+		&.active {
+			background-color: var(--color-active);
+				
+			.message {
+				color: var(--color-text);
+			}
+		}
+
 		@media (hover: hover) {
 			&:hover {
 				background-color: var(--color-active);
@@ -43,6 +52,14 @@
 			}
 		}
 	}
+}
+
+.empty {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--color-text);
 }
 
 .paginate {

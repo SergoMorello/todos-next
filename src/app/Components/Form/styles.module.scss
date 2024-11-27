@@ -1,11 +1,29 @@
 .form {
 	position: sticky;
-	bottom: 15px;
+	bottom: 0;
 	display: flex;
 	border-top: 1px solid var(--color-secondary);
 	background-color: var(--color-block);
 	flex-direction: column;
 	align-items: center;
+	padding: 15px 0;
+
+	.head {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+
+		.toast-name {
+			color: var(--color-text);
+		}
+
+		.reset::after {
+			content: "✖";
+			cursor: pointer;
+			color: var(--color-text);
+		}
+	}
 
 	textarea {
 		display: block;

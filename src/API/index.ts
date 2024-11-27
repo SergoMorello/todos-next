@@ -15,10 +15,16 @@ class API<T extends APIData = APIData> {
 					...this.headers
 				},
 				body: JSON.stringify(data)
-			}).then((response) => {
-				res(response.json());
+			}).then(async (response) => {
+				const text = await response.text();
+				res(JSON.parse(text, this.replacer));
 			}).catch(rej);
 		});
+	}
+
+	private replacer(key: string, value: any) {
+		if (key.slice(-2) === 'At') return new Date(value);
+		return value;
 	}
 
 	public setHost(host: string) {
